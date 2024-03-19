@@ -3,7 +3,7 @@
 Electro Lab: It is a web application dedicated to Do-It-Yourself (DIY) projects, aiming to empower users with
 step-by-step guides for creating various innovations independently, without requiring professional assistance. 
 <br/><br/>
-This app was developed using Ruby on Rails and a PostgreSQL database. It was created as part of a Software Engineering course project and was distinguished as the **best project** among all submissions.
+This app was developed using Ruby on Rails and a PostgreSQL database. It was created as part of a Software Engineering course project and was distinguished as the **best project** among all other projects.
 <br/><br/>
 Team Members:<br/>
 Sagar Pathak<br/>
