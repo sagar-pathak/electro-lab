@@ -1,0 +1,63 @@
+<style>
+    .title{
+        font-style: normal;
+        font-weight: 500;
+        font-size: 24px;
+        line-height: 29px;
+        color: #000000;
+        padding-bottom: 20px;
+    }
+    .title-wrapper{
+        display: flex;
+        flex-direction: column;
+    }
+    .user-box-wrapper{
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        justify-content: flex-start;
+        border: 1px solid #E5E5E5;
+        border-radius: 8px;
+        max-width: 900px;
+        cursor: pointer
+    }
+    .user-icon{
+        background: #D84D4D;
+        padding: 8px;
+        border-radius: 8px;
+    }
+    .username{
+        padding-left: 10px;
+        font-size: 18px;
+    }
+    .link-reset{
+        text-decoration: none !important;
+    }
+</style>
+
+<div class="title-wrapper">
+    <div class="title">
+        Messages
+    </div>
+    <div class="userlist-container">
+    <% if @all_users.any? %>
+        <% @all_users.each do |user| %>
+            <% if user['to_id'] != current_user.id %>
+                <% @userobj = @users.where(:id=>user['to_id']) %>
+                <%= link_to messages_url(:author_id=>user['to_id']), class: 'link-reset' do %>
+                    <div class="user-box-wrapper link-reset">
+                        <div class="user-icon">
+                            <%= image_tag('icon-user.png') %>
+                        </div>
+                        <div class="username">
+                            <%= @userobj[0].first_name + " " + @userobj[0].last_name %>
+                        </div>
+                    </div>
+                <% end %>
+            <% end %>
+        <% end %>
+    <% else %>
+        No messages found. 
+    <% end %>
+    </div>
+</div>

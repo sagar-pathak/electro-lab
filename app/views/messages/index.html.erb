@@ -1,0 +1,167 @@
+<style>
+    .title{
+        font-style: normal;
+        font-weight: 500;
+        font-size: 24px;
+        line-height: 29px;
+        color: #000000;
+        padding-bottom: 20px;
+    }
+    .title-wrapper{
+        display: flex;
+    }
+    .btn-message{
+        border: unset;
+        display: flex;
+        flex-direction: row;
+        justify-content: center;
+        align-items: center;
+        padding: 8px;
+        background: #D62A70;
+        border-radius: 20px;
+        color: #ffffff;
+        min-width: 100px;
+        margin-right: 10px;
+        width: 50px;
+        padding-bottom: 5px;
+}
+    .message-form{
+        padding-top: 10px;
+        display: flex;
+    }
+    .message-field{
+        width: calc(100% - 30px);
+        background: #F7F7FC;
+        border: unset !important;
+        border-radius: 4px;
+        height: 40px;
+        margin-right: 8px;
+  }
+    .btn-icon{
+        border: none;
+        background: #F7F7FC;
+        border-radius: 8px;
+        width: 55px;
+    }
+    .input-elem{
+        padding-left: 8px;
+    }
+    .to-box-wrapper{
+        display: flex;
+        justify-content: flex-end;
+        align-items: flex-end;
+        flex-direction: column;
+        width: calc(100% - 60px)
+    }
+    .from-box-wrapper{
+        display: flex;
+        justify-content: flex-start;
+        align-items: flex-start;
+        flex-direction: column;
+        padding-left: 30px;
+        width: calc(100% - 60px)
+    }
+    .to-message-box{
+        width: 300px;
+        background: #E8E9EB;
+        padding: 20px;
+        text-align: center;
+        color: #000;
+        position:relative;
+        border-radius: 10px;
+    }
+
+    .from-message-box{
+        width: 300px;
+        background: #D84D4D;
+        padding: 20px;
+        text-align: center;
+        color: #fff;
+        position:relative;
+        border-radius: 10px;
+    }
+
+    .to-message:before {
+        content: "";
+        width: 0px;
+        height: 0px;
+        position: absolute;
+        border-left: 10px solid #E8E9EB;
+        border-right: 10px solid transparent;
+        border-top: 10px solid #E8E9EB;
+        border-bottom: 10px solid transparent;
+        right: -19px;
+        top: 6px;
+    }
+
+    .from-message:before {
+        content: "";
+        width: 0px;
+        height: 0px;
+        position: absolute;
+        border-left: 10px solid transparent;
+        border-right: 10px solid #D84D4D;
+        border-top: 10px solid #D84D4D;
+        border-bottom: 10px solid transparent;
+        left: -19px;
+        top: 6px;
+    }
+    .message-wrapper{
+        max-width: 1000px;
+        padding-right: 30px;
+        padding-left: 30px;
+    }
+    .to-footer{
+
+    }
+    .from-footer{
+        margin-bottom: 30px;
+    }
+    .message-container{
+        height: 600px;
+        width: 100%;
+        overflow-y: scroll
+    }
+</style>
+
+<div class="title-wrapper">
+    <%= link_to all_messages_path do %>
+        <%= image_tag('icon-back.png') %>
+    <% end %>
+    <div class="title">
+        Messages (<%= @author_full_name %>)
+    </div>
+</div>
+<div class="message-wrapper">
+    <div class="message-container">
+    <% @all_messages.each do |message| %>
+        <% if message.from_id == current_user.id %>
+            <div class="to-box-wrapper">
+                <div class="to-message-box to-message">
+                    <%= message.message %>
+                </div>
+                <div class="to-footer">
+                    <%= message.created_at.strftime("%Y-%m-%d %I:%M %p") %>
+                </div>
+            </div>
+        <% else %>
+            <div class="from-box-wrapper">
+                <div class="from-message-box from-message">
+                    <%= message.message %>
+                </div>
+                <div class="from-footer">
+                    <%= message.created_at.strftime("%Y-%m-%d %I:%M %p") %>
+                </div>
+            </div>
+        <% end %>
+    <% end %>
+    </div>
+    <div class="message-input-box">
+        <%= form_with model: @message, html:{class:'message-form', autocomplete: "off"}, url: messages_url(author_id: @author.id), method: :post, local: true do |f| %>
+            <%= f.text_field :message, class: "input-elem message-field", placeholder: "Write your message here" %>
+            <%= button_tag(type: "submit", class: "btn-icon") do %>
+                <span><%= image_tag('icon-sendmessage.png') %></span>
+            <% end %> 
+        <% end %>
+    </div>
+</div>

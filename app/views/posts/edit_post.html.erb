@@ -1,0 +1,155 @@
+<style>
+
+    .title{
+        font-style: normal;
+        font-weight: 500;
+        font-size: 24px;
+        line-height: 29px;
+        color: #000000;
+        padding-bottom: 20px;
+    }
+
+    .input-elem{
+        background: #FBFBFB;
+        border: 1px solid #EBEBEB;
+        box-sizing: border-box;
+        border-radius: 20px;
+        padding: 6px 5px 6px 15px;
+        font-size: 12px;
+        width: 100%;
+    }
+    .required{
+        color: #4EAEEA;
+    }
+
+    .field{
+            padding-bottom: 12px;
+    }
+
+    .btn-submit{
+        border: unset;
+        display: flex;
+        flex-direction: row;
+        justify-content: center;
+        align-items: center;
+        padding: 8px;
+        background: #D62A70;
+        border-radius: 20px;
+        color: #ffffff;
+        min-width: 100px;
+        margin-right: 10px;
+        width: 100%;
+        margin-top: 10px;
+        padding-bottom: 5px;
+    }
+
+  .label{
+    color: #232323;
+    font-weight: 600;
+  }
+
+  .select{
+      width: 250px;
+  }
+
+  .upload-container{
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      border: 1px dashed rgba(0, 0, 0, 0.25);
+      border-radius: 10px;
+      padding: 16px 24px 16px 32px;
+  }
+
+  .upload-left-items{
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+  }
+
+  .upload-title-desc{
+      display: flex;
+      flex-direction: column;
+      padding-left: 15px;
+  }
+
+  .upload-title{
+    font-style: normal;
+    font-weight: 400;
+    font-size: 13px;
+    line-height: 15px;
+    color: #000000;
+    padding-bottom: 8px;
+  }
+
+  .upload-title-info{
+    font-style: normal;
+    font-weight: 400;
+    font-size: 12px;
+    line-height: 14px;
+    color: rgba(0, 0, 0, 0.4);
+  }
+
+  .step-wrapper{
+      border: 1px solid #EEEEEE;
+        box-sizing: border-box;
+        border-radius: 10px;
+        padding: 10px 16px 10px 16px; 
+  }
+
+  .hidden-step{
+      display: none;
+  }
+
+
+
+</style>
+
+<div class="title">My Posts</div>
+
+<div class="form-wrapper">
+    <%= form_with model: @post, url: edit_post_path, method: :patch, local: true do |f| %>
+    <div class="field">
+      <div><%= f.label :title, class: 'label' %><span class="required">*</span></div>
+      <%= f.text_field :title, autofocus: true, class: "input-elem" %>
+    </div>
+
+    <div class="field">
+      <div><%= f.label :description, class: 'label' %><span class="required">*</span></div>
+      <%= f.text_area :description, autofocus: true, class: "input-elem", rows: 10 %>
+    </div>
+
+    <div class="field">
+        <div><%= f.label :category_id, class: 'label' %><span class="required">*</span></div>
+        <%= f.collection_select(:category_id, Category.all, :id, :name, {:include_blank => 'Please Select Category'}, { :class => 'input-elem select' }) %>
+    </div>
+
+    <div class="field">
+        <div><%= f.label :thumbnail, class: 'label' %><span class="required">*</span></div>
+        <div class="upload-container">
+            <div class="upload-left-items">
+                <div class="upload-icon">
+                    <%= image_tag('icon-upload.svg') %>
+                </div>
+                <div class="upload-title-desc">
+                    <div class="upload-title">Select an image file</div>
+                    <div class="upload-title-info">JPG or PNG file size no more than 1MB</div>
+                </div>
+            </div>
+            <div class="upload-right-items">
+                <%= f.file_field 'thumbnail', title:'', class: 'file-field', 'data-id'=>'thumbnail_img' %>
+                <%= f.hidden_field :thumbnailImg, 'id'=>'thumbnail_img' %>
+            </div>
+        </div>
+    </div>
+
+
+
+    <div class="actions">
+      <%= f.submit "Submit", class: "btn-submit" %>
+    </div>
+
+
+    <% end %>
+</div>
+

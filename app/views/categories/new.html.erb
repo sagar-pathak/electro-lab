@@ -1,0 +1,22 @@
+<style>
+
+  .btn-submit{
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    padding: 8px;
+    background: #D62A70;
+    border-radius: 20px;
+    color: #ffffff;
+    min-width: 100px;
+    margin-right: 10px;
+  }
+</style>
+<h1>New Category</h1>
+
+<%= bootstrap_form_with model: @category, url: categories_path, method: :post, local: true do |f| %>
+  <%= f.text_field :name, required: true %>
+  <%= f.submit ("Submit"), class:'btn-submit'%>
+  
+<% end %>

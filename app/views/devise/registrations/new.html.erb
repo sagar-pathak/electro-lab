@@ -1,0 +1,152 @@
+
+<style>
+.login-box{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    padding-top: 20px;
+    padding-bottom: 45px;
+  }
+
+  .separator {
+    display: flex;
+    align-items: center;
+    text-align: center;
+    width: 100%;
+    padding-left: 30px;
+    padding-right: 30px;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    color: #E5E5E5;
+    font-size: 12px;
+  }
+
+  .separator::before,
+  .separator::after {
+    content: '';
+    flex: 1;
+    border-bottom: 1px solid #E5E5E5
+  }
+
+  .separator:not(:empty)::before {
+    margin-right: .25em;
+  }
+
+  .separator:not(:empty)::after {
+    margin-left: .25em;
+  }
+
+  .form{
+    width: 100%;
+    padding: 0px 30px 0px 30px;
+  }
+
+  .input-elem{
+    background: #FBFBFB;
+    border: 1px solid #EBEBEB;
+    box-sizing: border-box;
+    border-radius: 20px;
+    padding: 6px 5px 6px 5px;
+    font-size: 12px;
+    width: 100%;
+  }
+  .required{
+    color: #4EAEEA;
+  }
+
+  .field{
+    padding-bottom: 12px;
+  }
+
+  .btn-register{
+    border: unset;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    padding: 8px;
+    background: #D62A70;
+    border-radius: 20px;
+    color: #ffffff;
+    min-width: 100px;
+    margin-right: 10px;
+    width: 100%;
+    margin-top: 10px;
+    padding-bottom: 5px;
+  }
+
+  .actions{
+    padding-bottom: 15px;
+  }
+
+  .rem-forgot-container{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .label{
+    color: #232323;
+    font-weight: 600;
+  }
+
+</style>
+
+<div class="login-box">
+  <%=image_tag("logo-large.png", alt: "Electro Lab Logo", class:'about-logo') %>
+  <div class="separator">User Registration</div>
+
+    <%= form_for(resource, as: resource_name, url: registration_path(resource_name), :html => {:class => 'form'}) do |f| %>
+    
+    <div class="row">
+      <div class="field col-sm-6">
+        <div><%= f.label :first_name, class: 'label' %><span class="required">*</span></div>
+        <%= f.text_field :first_name, required: true, autofocus: true, class: "input-elem", placeholder: " Your FirstName" %>
+      </div>
+
+      <div class="field col-sm-6">
+        <div><%= f.label :last_name, class: 'label' %><span class="required">*</span></div>
+          <%= f.text_field :last_name, required: true, autofocus: true, class: "input-elem", placeholder: "Your LastName" %>
+
+        </div>
+    </div>
+
+    <div class="field">
+      <div><%= f.label :email, class: 'label' %><span class="required">*</span></div>
+      <%= f.email_field :email, required: true, autofocus: true, autocomplete: "email", class: "input-elem", placeholder: "example@email.com" %>
+
+    </div>
+
+    <div class="field">
+      <div><%= f.label :description, 'Tell us about yourself', class: 'label' %><span class="required">*</span></div>
+      <%= f.text_area :description, required: true, :size=>"50", autofocus: true, autocomplete: "email", class: "input-elem", placeholder: "Tell us about yourself" %>
+
+    </div>
+
+
+    <div class="row">
+      <div class="field  col-sm-6">
+        <div><%= f.label :password, class: 'label' %><span class="required">*</span></div>
+        <%= f.password_field :password, required: true,  autocomplete: "current-password", class: "input-elem", placeholder: "5+ characters" %>
+   
+      </div>
+
+      <div class="field  col-sm-6">
+        <div><%= f.label :password, class: 'label' %><span class="required">*</span></div>
+        <%= f.password_field :password, required: true,  autocomplete: "current-password", class: "input-elem", placeholder: "Confirm Password" %>
+      </div>
+    </div>
+
+    <div class="actions">
+      <%= f.submit "Register", class: "btn-register" %>
+    </div>
+
+    <div>
+      Already have an account? <%= render "devise/shared/links" %>
+    </div>
+
+  <% end %>
+
+</div>
+

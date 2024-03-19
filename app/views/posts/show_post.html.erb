@@ -1,0 +1,243 @@
+<style>
+  .title{
+    font-style: normal;
+    font-weight: 500;
+    font-size: 24px;
+    line-height: 29px;
+    color: #000000;
+    padding-bottom: 5px;
+  }
+  .post-meta-wrap{
+      display: flex;
+  }
+
+.post-author{
+    font-style: normal;
+    font-weight: 400;
+    font-size: 12px;
+    line-height: 15px;
+    color: rgba(0, 0, 0, 0.5);
+    padding-bottom: 8px;
+    padding-right: 20px;
+  }
+
+.post-desc{
+    padding-top: 10px;
+    font-style: normal;
+    font-weight: 100;
+    font-size: 15px;
+    line-height: 22px;
+    color: #000000;
+}
+
+.steps-wrap{
+    padding-top: 20px;
+}
+
+.step-title{
+    font-style: normal;
+    font-weight: 500;
+    font-size: 16px;
+    line-height: 19px;
+    color: #000000;
+}
+
+.step-image{
+    padding-top: 10px;
+}
+
+.step-desc{
+    padding-top: 10px;
+    font-style: normal;
+    font-weight: 100;
+    font-size: 15px;
+    line-height: 22px;
+    color: #000000;
+}
+
+.menu-wrapper{
+    display: flex;
+    padding-top: 20px;
+    padding-bottom: 20px;
+    align-items: center;
+}
+
+.report-link{
+    padding-top: 10px;
+    margin-left: 50px;
+}
+
+.comment-title{
+    font-style: normal;
+    font-weight: 500;
+    font-size: 20px;
+    line-height: 24px;
+    color: #000000;
+}
+
+.report-text{
+    font-size: 12px;
+    text-decoration: underline;
+    font-style: italic;
+}
+
+.input-elem{
+    background: #FBFBFB;
+    border: 1px solid #EBEBEB;
+    box-sizing: border-box;
+    border-radius: 20px;
+    padding: 6px 5px 6px 5px;
+    font-size: 12px;
+    width: 100%;
+  }
+
+  .comment-form{
+      padding-top: 10px;
+      display: flex;
+  }
+
+  .comment-field{
+      width: 400px;
+  }
+
+.btn-comment{
+    border: unset;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    padding: 8px;
+    background: #D62A70;
+    border-radius: 20px;
+    color: #ffffff;
+    min-width: 100px;
+    margin-right: 10px;
+    width: 50px;
+    padding-bottom: 5px;
+}
+
+.comments-wrapper{
+    padding-top: 15px;
+}
+
+.comment-header{
+    display: flex;
+}
+
+.comment-user{
+    font-style: normal;
+    font-weight: 500;
+    font-size: 16px;
+    line-height: 19px;
+    color: #000000;
+}
+
+.comment-date{
+    font-style: normal;
+    font-weight: 100;
+    font-size: 12px;
+    line-height: 17px;
+    color: #000000;
+    padding-left: 5px;
+    padding-top: 1px;
+}
+
+.feedback{
+    font-style: normal;
+    font-weight: 100;
+    font-size: 14px;
+    line-height: 17px;
+    color: #000000;
+}
+
+.btn-link{
+    background: white;
+    border: none;
+    text-decoration: underline;
+    font-size: 12px;
+}
+
+.dev-image{
+    width: 700px;
+    height: auto;
+}
+
+  </style>
+
+<div class="title"><%= @post.title %></div>
+<div class="post-meta-wrap">
+    <div class="post-author">
+        By <%= @post.user.email %>
+    </div>
+    <div class="post-author"> Posted on: <%= @post.created_at.strftime("%m/%d/%Y") %> </div>
+</div>
+<div class="post-desc">
+    <%= @post.description %>
+</div>
+<div class="steps-wrap">
+    <div class="title">Development</div>
+    <% @steps.each.with_index do |step, index| %>
+        <div class="step-wrap">
+            <div class="step-title">Step <%= index + 1 %>: <%= step.title %></div>
+            <div class="step-image">
+                <%= image_tag "#{step.image}", class:'dev-image'%>
+            </div>
+            <div class="step-desc">
+                <%= step.description %>
+            </div>
+        </div>
+    <% end %>
+</div>
+
+<div class="menu-wrapper">
+    <%= link_to author_profile_url(@post.user), class: 'link-reset' do %>
+    <button class="btn btn-default btn-white <%=active_menu(homePage_path) %>">
+        <%= image_tag('icon-profile.svg', :size=>'20xauto') %>
+        <span class="menu-text">Author's Profile</span>
+    </button>
+    <% end %>
+    
+    <% if @post.user.id != current_user.id %>
+        <%= link_to messages_url(:author_id=>@post.user.id), class: 'link-reset' do %>
+        <button class="btn btn-default btn-white">
+            <%= image_tag('icon-message-small.svg', :size=>'20xauto') %>
+            <span class="menu-text">Chat with Author</span>
+        </button>
+        <% end %>
+    <% end %>
+
+    <% if @flagged_posts.length != 1 %>
+        <%= form_with model: @flagged_post, html:{class:'comment-form'}, url: flag_post_url(post_id: @post.id), method: :post, local: true do |f| %>
+            <%= f.submit "Report this post", class: "btn-link" %>
+        <% end %>
+    <% else %>
+        <span class="report-text">(You have reported this post for breaking the rules and regulations.)</span>
+    <% end %>
+</div>
+
+
+<div class="comment-wrapper">
+    <div class="comment-title">Comments</div>
+    <div class="comment-box">
+        <%= form_with model: @comment, html:{class:'comment-form'}, url: new_comment_path(post_id: @post.id), method: :post, local: true do |f| %>
+            <%= f.text_field :feedback, class: "input-elem comment-field", placeholder: "Write your comments" %>
+            <%= f.submit "Post", class: "btn-comment" %>
+        <% end %>
+    </div>
+</div>
+
+<div class="comments-wrapper">
+    <% @comments.each.with_index do |c, index| %>
+        <div class="feedback-wrap">
+            <div class="comment-header">
+                <span class="comment-user"><%= c.user.email %></span> 
+                <span class="comment-date">(<%= c.created_at.strftime("%m/%d/%Y") %>)</span>
+            </div>
+            <div class="feedback">
+                <%= c.feedback %>
+            </div>
+        </div>
+    <% end %>
+</div>
+
+

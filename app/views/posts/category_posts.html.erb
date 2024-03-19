@@ -1,0 +1,163 @@
+
+
+<style>
+  .title{
+    font-style: normal;
+    font-weight: 500;
+    font-size: 24px;
+    line-height: 29px;
+    color: #000000;
+    padding-bottom: 20px;
+  }
+
+  .post-wrap{
+    padding-bottom: 25px;
+  }
+
+  .post-content-wrap{
+    display: flex;
+    flex-direction: row;
+  }
+
+  .post-content{
+    display: flex;
+    flex-direction: column;
+    padding-left: 15px;
+  }
+
+  .post-title{
+    font-style: normal;
+    font-weight: 400;
+    font-size: 18px;
+    line-height: 22px;
+    color: #1C1C1C;
+    cursor: pointer;
+  }
+
+  .post-author{
+    font-style: normal;
+    font-weight: 400;
+    font-size: 12px;
+    line-height: 15px;
+    color: rgba(0, 0, 0, 0.5);
+    padding-bottom: 8px;
+  }
+
+  .post-desc{
+    font-style: normal;
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 17px;
+    color: #1C1C1C;
+    
+    width:650px;
+    /**Major Properties**/
+    white-space:nowrap;
+    overflow:hidden;
+    text-overflow:ellipsis;
+
+        padding-bottom: 8px;
+  }
+
+  .post-actions{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .actions{
+    display: flex;
+  }
+
+  .action{
+    padding-right: 20px;
+  }
+
+  .action-text{
+    text-decoration: underline;
+  }
+
+  .unset-underline{
+    text-decoration: none;
+  }
+
+  .icon-green{
+    background: green !important;
+  }
+
+  .icon-red{
+    background: red !important;
+  }
+
+</style>
+
+
+<div class="title">Post by Category: <%= @category.name %> </div>
+
+<% if @posts.any? %>
+  <% @posts.each do |post| %>
+
+  <div class="post-wrap">
+    <div class="post-content-wrap">
+      <div class="thumbnail">
+        <%= image_tag(post.thumbnailImg, :size=>'106x106') %>
+      </div>
+      <div class="post-content">
+        <%= link_to show_post_url(post_id:post.id) do %>
+          <div class="post-title"><%= post.title %>
+        <% end %>
+        </div>
+
+        <div class="post-author">By <%= post.user.email %></div>
+        <div class="post-desc">
+          <%= post.description %>
+        </div>
+        <div class="post-actions">
+          <div class="left-actions">
+            <div class="actions">
+               <div class="action ">
+                <% if has_upvoted?(post.id, current_user.id) %>
+                  <%= image_tag('icon-up.png', class: 'icon-green')%>
+                <% else %>
+                  <%= link_to( image_tag('icon-up.png'), react_post_url(post_id: post.id, react_action: 1), method: :post)%>
+                <% end %>
+                <span class="action-text">Upvote (<%= @votes.where(post: post.id, upvote: 1).count %>)</span>
+              </div>
+
+              <div class="action">
+                <% if has_downvoted?(post.id, current_user.id) %>
+                  <%=image_tag('icon-down.png', class: 'icon-red')%>
+                <% else %>
+                  <%= link_to( image_tag('icon-down.png'), react_post_url(post_id: post.id, react_action: 2), method: :post)%>
+                <% end %>
+                <span class="action-text">Downvote (<%= @votes.where(post: post.id, downvote: 1).count %>)</span>
+              </div>
+
+            </div>
+          </div>
+          <div class="right-actions">
+            <div class="actions">
+              <div class="action">
+                <span class="action-text">Category:  (<%= post.category.name %>)</span>
+              </div>
+
+              <div class="action">
+                <span class="action-text unset-underline">Posted on: 2022-04-09</span>
+              </div>
+
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+    
+  <% end %>
+
+<% else %>
+  <div class="post-wrap">
+    No Post Found.
+  </div>
+
+
+<% end %>

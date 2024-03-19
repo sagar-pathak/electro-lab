@@ -1,0 +1,211 @@
+
+<style>
+    .title{
+        font-style: normal;
+        font-weight: 500;
+        font-size: 24px;
+        line-height: 29px;
+        color: #000000;
+        padding-bottom: 20px;
+    }
+
+    .input-elem{
+        background: #FBFBFB;
+        border: 1px solid #EBEBEB;
+        box-sizing: border-box;
+        border-radius: 20px;
+        padding: 6px 5px 6px 15px;
+        font-size: 12px;
+        width: 100%;
+    }
+    .required{
+        color: #4EAEEA;
+    }
+
+    .field{
+            padding-bottom: 12px;
+    }
+
+    .btn-submit{
+        border: unset;
+        display: flex;
+        flex-direction: row;
+        justify-content: center;
+        align-items: center;
+        padding: 8px;
+        background: #D62A70;
+        border-radius: 20px;
+        color: #ffffff;
+        min-width: 100px;
+        margin-right: 10px;
+        width: 100%;
+        margin-top: 10px;
+        padding-bottom: 5px;
+    }
+
+  .label{
+    color: #232323;
+    font-weight: 600;
+  }
+
+  .select{
+      width: 250px;
+  }
+
+  .upload-container{
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      border: 1px dashed rgba(0, 0, 0, 0.25);
+      border-radius: 10px;
+      padding: 16px 24px 16px 32px;
+  }
+
+  .upload-left-items{
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+  }
+
+  .upload-title-desc{
+      display: flex;
+      flex-direction: column;
+      padding-left: 15px;
+  }
+
+  .upload-title{
+    font-style: normal;
+    font-weight: 400;
+    font-size: 13px;
+    line-height: 15px;
+    color: #000000;
+    padding-bottom: 8px;
+  }
+
+  .upload-title-info{
+    font-style: normal;
+    font-weight: 400;
+    font-size: 12px;
+    line-height: 14px;
+    color: rgba(0, 0, 0, 0.4);
+  }
+
+  .step-wrapper{
+      border: 1px solid #EEEEEE;
+        box-sizing: border-box;
+        border-radius: 10px;
+        padding: 10px 16px 10px 16px; 
+  }
+
+  .hidden-step{
+      display: none;
+  }
+  .title-on-header{
+      font-size: 14px;
+  }
+
+  .message{
+      padding-bottom: 30px;
+  }
+
+  .title-wrapper{
+      display: flex;
+  }
+
+</style>
+
+<div class="title-wrapper">
+    <%= link_to new_step_path(post_id:@post.id) do %>
+        <%= image_tag('icon-back.png') %>
+    <% end %>
+    <div class="title">
+        Edit Step
+    </div>
+</div>
+<div class="form-wrapper">
+    <%= form_with model: @step, url: edit_step_path, method: :patch, local: true do |f| %>
+    <div class="field">
+      <div><%= f.label :title, class: 'label' %><span class="required">*</span></div>
+      <%= f.text_field :title, autofocus: true, class: "input-elem", placeholder: "Step title goes here" %>
+    </div>
+
+    <div class="field">
+      <div><%= f.label :description, class: 'label' %><span class="required">*</span></div>
+      <%= f.text_area :description, autofocus: true, class: "input-elem", placeholder: "Step description goes here" %>
+    </div>
+
+    <div class="field">
+        <div><%= f.label :image, class: 'label' %><span class="required">*</span></div>
+        <div class="upload-container">
+            <div class="upload-left-items">
+                <div class="upload-icon">
+                    <%= image_tag('icon-upload.svg') %>
+                </div>
+                <div class="upload-title-desc">
+                    <div class="upload-title">Select an image file</div>
+                    <div class="upload-title-info">JPG or PNG file size no more than 1MB</div>
+                </div>
+            </div>
+            <div class="upload-right-items">
+                <%= f.file_field 'stepImageHolder', title:'', class: 'file-field', 'data-id'=>'stepImage' %>
+                <%= f.hidden_field :image, 'id'=>'stepImage' %>
+            </div>
+        </div>
+    </div>
+
+    <!-- <div class="field">
+        <button class="btn btn-default" onclick="addMoreStep(event);">
+                <span class="menu-text">+Add Step</span>
+        </button>
+    </div> -->
+
+    <div class="actions">
+      <%= f.submit "Update", class: "btn-submit" %>
+    </div>
+    <%# <%= render "devise/shared/links" %>
+  <% end %>
+
+      <script>
+        var stepNo = 1;
+        function addMoreStep(event){
+            if (event.preventDefault && event.stopImmediatePropagation) { 
+                event.preventDefault(); 
+                event.stopImmediatePropagation(); 
+            } else {
+                event.returnValue = false; 
+            }
+            stepNo = stepNo + 1;
+            document.getElementById('step-'+stepNo).classList.remove('hidden-step');
+        }
+    </script>
+
+
+    <script>
+
+        var fileElements = document.getElementsByClassName("file-field");
+        Array.from(fileElements).forEach(function(element) {
+            let dataId = element.getAttribute('data-id');
+            element.addEventListener('change', (e) => {
+                    // Get a reference to the file
+                    const file = e.target.files[0];
+
+                    // Encode the file using the FileReader API
+                    const reader = new FileReader();
+                    reader.onloadend = () => {
+                        // Use a regex to remove data url part
+
+                        // const base64String = reader.result
+                        //     .replace('data:', '')
+                        //     .replace(/^.+,/, '');
+
+                        const base64Img = reader.result;
+
+                        console.log(base64Img);
+                        document.getElementById(dataId).value = base64Img;
+                        // Logs wL2dvYWwgbW9yZ...
+                    };
+                    reader.readAsDataURL(file);
+                });
+        });
+    </script>
+</div>

@@ -1,0 +1,151 @@
+<style>
+  .title{
+    font-style: normal;
+    font-weight: 500;
+    font-size: 24px;
+    line-height: 29px;
+    color: #000000;
+    padding-bottom: 20px;
+  }
+
+  .post-wrap{
+    padding-bottom: 25px;
+  }
+
+  .post-content-wrap{
+    display: flex;
+    flex-direction: row;
+  }
+
+  .post-content{
+    display: flex;
+    flex-direction: column;
+    padding-left: 15px;
+  }
+
+  .post-title{
+    font-style: normal;
+    font-weight: 400;
+    font-size: 18px;
+    line-height: 22px;
+    color: #1C1C1C;
+    cursor: pointer;
+  }
+
+  .post-author{
+    font-style: normal;
+    font-weight: 400;
+    font-size: 12px;
+    line-height: 15px;
+    color: rgba(0, 0, 0, 0.5);
+    padding-bottom: 8px;
+  }
+
+  .post-desc{
+    font-style: normal;
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 17px;
+    color: #1C1C1C;
+    
+    width:650px;
+    /**Major Properties**/
+    white-space:nowrap;
+    overflow:hidden;
+    text-overflow:ellipsis;
+    padding-bottom: 8px;
+  }
+
+  .post-actions{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .actions{
+    display: flex;
+  }
+
+  .action{
+    padding-right: 20px;
+  }
+
+  .action-text{
+    text-decoration: underline;
+  }
+
+  .unset-underline{
+    text-decoration: none;
+  }
+
+  .action-danger{
+      color: red;
+  }
+
+  .btn-link{
+    background: white;
+    border: none;
+    text-decoration: underline;
+    }
+
+    .btn-link-danger{
+        color: red
+    }
+</style>
+
+<div class="title">Flagged Posts</div>
+
+<% if @all_flagged_posts.length > 0 %>
+
+    <% @all_flagged_posts.each do |flagged_post| %>
+        <% @posts = @all_posts.where(:id=>flagged_post[0]) %>
+        <% @posts.each do |post| %>
+
+        <div class="post-wrap">
+        <div class="post-content-wrap">
+            <div class="thumbnail">
+            <%= image_tag(post.thumbnailImg, :size=>'106x106') %>
+            </div>
+            <div class="post-content">
+                <div class="post-title"><%= post.title %>
+            </div>
+            <div class="post-author">By <%= post.user.email %></div>
+            <div class="post-desc">
+                <%= post.title %>
+            </div>
+            <div class="post-actions">
+                <div class="left-actions">
+                    <div class="actions">
+                        <div class="action">
+                            <span class="action-text">Category:  (<%= post.category.name %>)</span>
+                        </div>
+
+                        <div class="action">
+                            <span class="action-text unset-underline">Posted on: <%= post.created_at.strftime("%m/%d/%Y") %> </span>
+                        </div>
+
+                        <div class="action">
+                            <span class="action-text">Flag Count:  <%= flagged_post[1] %> </span>
+                        </div>
+                    </div>
+                </div>
+                <div class="right-actions">
+                    <div class="actions">
+                        <div class="action">
+                            <%= form_with model: @flagged_post, html:{class:'comment-form'}, url: remove_flagged_post_url(post_id: post.id), method: :post, local: true do |f| %>
+                                <%= f.submit "Delete this post", class: "btn-link btn-link-danger" %>
+                            <% end %>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            </div>
+        </div>
+        </div>
+        
+        <% end %>
+    <% end %>
+<% else %>
+    No posts are flagged. 
+<% end %>
+

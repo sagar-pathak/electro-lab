@@ -1,0 +1,58 @@
+<style>
+    .div-container{
+        background: #FFFFFF;
+        box-shadow: 0px 10px 20px rgba(0, 0, 0, 0.05);
+        border-radius: 10px;
+        padding: 30px;
+        height: 600px;
+        position: relative;
+    }
+    .about-logo{
+        position: absolute;
+        width: 206px;
+        height: 147px;
+        bottom: 0;
+        right: 0;
+        margin-bottom: 20px;
+    }
+</style>
+
+<h1 style="text-align: center;padding-top: 30px;"> What is ElectroLab? </h1>
+<div class="div-container">
+<p>
+    Electrolab is your home to post all of the cool electronics projects you did. It is a collection of Do-It-Yourself (DIY) projects to help others learn to make new things. Our goal is to provide step by step guides to build projects without the need of professional assistance. You can post literally any stuff you did with your gadgets from a simple LED project with a circuit board to a remote control car with Arduino.
+</p>
+
+<p><h2>Get Inspiring Ideas:</h2>
+<a>
+You’ll be amazed to see all the ideas and projects you can build in your free time with limited resources on our platform. It is an online community of makers, innovators and learners who love to share what they make.
+</a>
+<p>
+
+<p><h2>Share Your Projects:</h2>
+<a>
+    You can post literally any stuff you did with your gadgets from a simple LED project with a circuit board to an awesome project of building a remote control car with Arduino. Your unique idea can be inspiring for others.
+</a>
+</p>
+
+<p><h2>Get-In Touch with Other:</h2>
+<a>
+Get into conversation with the developer of your favorite DIY project. You can get more insight about the project and learn more.
+</a>
+</p>
+
+
+<p>
+<%= link_to 'Sign-In' ,new_user_session_path %>  to start exploring project ideas.
+</p>
+
+
+    <h1> Rules and Regulations</h1>
+
+    <ol>
+        <li>Your DIY project should be of your own work. The goal of the platform is to promote engagements and encourage sharing.</li>
+        <li>There is no specific limit on the number of DIY projects you are allowed to post. As long as you feel like sharing your project with others, you can post them.</li>
+        <li>Do not engage on the post in an inappropriate way.</li>
+    </ol>
+    <%=image_tag("logo-large.png", alt: "Electro Lab Logo", class:'about-logo') %>
+</div>
