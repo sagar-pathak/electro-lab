@@ -5,4 +5,4 @@ step-by-step guides for creating various innovations independently, without requ
 
 This app was built on Ruby on Rails and PostgreSQL database. 
 
-Design Figma File Link: https://www.figma.com/file/XQw9jtsTOCjdaSC7dcnpt7/ElectroLab?type=design&node-id=0%3A1&mode=design&t=VLrAdxB1lyREBvEr-1
+Design Link: https://www.figma.com/file/XQw9jtsTOCjdaSC7dcnpt7/ElectroLab?type=design&node-id=0%3A1&mode=design&t=VLrAdxB1lyREBvEr-1
